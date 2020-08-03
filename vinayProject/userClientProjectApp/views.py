@@ -1,7 +1,11 @@
 from django.shortcuts import render
 from rest_framework import generics
 from .serializer import ClientSerializer,ProjectSerializer
+from rest_framework.views import APIView
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 from .models import *
+
 
 # Register a client
 class addClient(generics.CreateAPIView):
@@ -31,7 +35,21 @@ class createListProject(generics.ListCreateAPIView):
 class editDeleteProject(generics.RetrieveUpdateDestroyAPIView):
     queryset=Project.objects.all()
     serializer_class=ProjectSerializer
-
+    
 #Index Page
 def index(request):
     return render(request,'index.html')
+
+# List of all projects assigned to the  user
+@api_view(['GET'])
+def getProject(request,id):
+    try:
+        obj=Project.objects.filter(users = id)
+    except obj.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    queryset = Project.objects.filter(users=id)
+    serializer = ProjectSerializer(obj,many=True)
+    serializer_class = ProjectSerializer
+    
+    print( obj)
+    return Response(serializer.data)

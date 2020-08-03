@@ -6,6 +6,9 @@ class User(models.Model):
     name=models.CharField(max_length=20)
     def __str__(s):
         return s.name
+    
+    def get_username(s):
+        return s.name
     class Meta:
         db_table = 'User'
 
@@ -26,5 +29,7 @@ class Project(models.Model):
     users = models.ManyToManyField(User,blank=True)  #Many To Many Field used because a project can be assigned to multiple user
     created_at=models.DateTimeField(auto_now_add=True)
 
+
     class Meta:
         db_table = 'Project'
+

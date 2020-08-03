@@ -11,5 +11,6 @@ urlpatterns = [
     path('DELETE/clients/:<int:pk>',v.deleteClient.as_view()),
     path('GET-POST/projects',v.createListProject.as_view()),
     path('editDeleteProject/:<int:pk>',v.editDeleteProject.as_view()),
+    path('listProject/:<int:id>',v.getProject),
     
 ]
